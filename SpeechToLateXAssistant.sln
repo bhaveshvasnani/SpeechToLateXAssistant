@@ -5,6 +5,11 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToLaTeXAssistant", "SpeechToLaTeXAssistant.csproj", "{5AA1D21F-70DD-4B50-B973-9BC7EBFA21F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0A7DAF3-42D4-4109-BA88-5E925986100C}"
+	ProjectSection(SolutionItems) = preProject
+		LatexCommands.cs = LatexCommands.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

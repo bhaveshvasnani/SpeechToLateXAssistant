@@ -39,7 +39,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LatexCommands.cs" />
     <Compile Include="MainProgram.cs" />
+    <Compile Include="ResponseModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
