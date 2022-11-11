@@ -13,6 +13,7 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Newtonsoft.Json;
 using SpeechToTextAssistant;
+using System.IO;
 
 namespace SpeechToLateXAssistant
 {
@@ -20,28 +21,71 @@ namespace SpeechToLateXAssistant
     {
         static void Main(string[] args)
         {
-            // string processedSpeecText = ListenToSpeech().Result;
-            // Console.WriteLine(processedSpeecText);
-
-            ResponseModel response = GetLateXContentIntent("a plus b eqauls c").Result;
-            Console.WriteLine(response.query);
-            Console.WriteLine(response.prediction);
-            if (response.prediction.topIntent == "LateX Operations")
+            string result = "";
+            string queryWord = "";
+            while (queryWord.Equals("End") != true)
             {
-                var entities = response.prediction.entities;
-               foreach (var op in entities.Variable)
+                // string processedSpeecText = ListenToSpeech().Result;
+                // Console.WriteLine(processedSpeecText);
+                LatexCommands latexCommands = new LatexCommands();
+                ResponseModel response = GetLateXContentIntent("a plus b eqauls c").Result;
+                Console.WriteLine(response.query);
+                Console.WriteLine(response.prediction);
+                if (response.prediction.topIntent == "LateX Operations")
                 {
-                    Console.WriteLine("----------------------");
-                    Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
-                    Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
-                    Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
-                }
+                    var entities = response.prediction.entities;
+                    var operators = response.prediction.entities.Operator;
+                    int opLen = operators.Count;
+                    int varLen = 0;
+                    var var1 = "";
+                    var var2 = "";
+                    var var3 = "";
+                    foreach (var op in entities.Variable)
+                    {
+                        Console.WriteLine("----------------------");
+                        Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
+                        Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
+                        Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
+                        if (op.Variable1 != null)
+                        {
+                            var1 = op.Variable1[0];
+                            varLen++;
+                        }
+                        if (op.Variable2 != null)
+                        {
+                            var2 = op.Variable2[0];
+                            varLen++;
+                        }
+                        if (op.Variable2 != null)
+                        {
+                            var2 = op.Variable2[0];
+                            varLen++;
+                        }
+                    }
 
+                    if (opLen == 1 && varLen == 0)
+                    {
+                        result += latexCommands.actionToCommand[operators[0]] + "";
+                    }
+                    else if (opLen == 1)
+                    {
+                        result += latexCommands.actionToCommand[operators[0]] + "(" + var1 + ")";
+                    }
+                    else if (opLen == 2 && varLen == 3)
+                    {
+                        result += var1 + " " + latexCommands.actionToCommand[operators[0]] + " " + var2 + " " + latexCommands.actionToCommand[operators[1]] + " " + var3;
+                    }
+                }
+                else
+                {
+                    result += response.query;
+                }
+                result += Environment.NewLine;
             }
-            else
-            {
-                Console.WriteLine("Text");
-            }
+
+            string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\MSCS\\latex.txt";
+            File.WriteAllText(filePath, result);
+
             var blah= Console.Read();
             Console.WriteLine(blah);
         }
