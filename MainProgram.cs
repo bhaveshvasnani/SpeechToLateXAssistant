@@ -22,44 +22,60 @@ namespace SpeechToLateXAssistant
         static void Main(string[] args)
         {
             string result = "";
-            string queryWord = "";
-            while (queryWord.Equals("End") != true)
+            string processedSpeecText = "";
+            while (processedSpeecText.Equals("Terminate") != true)
             {
-                // string processedSpeecText = ListenToSpeech().Result;
-                // Console.WriteLine(processedSpeecText);
+                processedSpeecText = ListenToSpeech().Result;
+                Console.WriteLine(processedSpeecText);
+                if (processedSpeecText.Contains("Terminate"))
+                {
+                    string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\MSCS\\latex.txt";
+                    Console.WriteLine(filePath);
+                    Console.ReadLine();
+                    File.WriteAllText(filePath, result);
+                    return;
+                }
                 LatexCommands latexCommands = new LatexCommands();
-                ResponseModel response = GetLateXContentIntent("a plus b eqauls c").Result;
+                ResponseModel response = GetLateXContentIntent(processedSpeecText).Result;
                 Console.WriteLine(response.query);
                 Console.WriteLine(response.prediction);
                 if (response.prediction.topIntent == "LateX Operations")
                 {
                     var entities = response.prediction.entities;
                     var operators = response.prediction.entities.Operator;
+                    for (var i = 0; i < operators.Count; i++)
+                    {
+                        operators[i] = operators[i].ToLower();
+                        operators[i] = operators[i].Replace(".", String.Empty);
+                    }
                     int opLen = operators.Count;
                     int varLen = 0;
                     var var1 = "";
                     var var2 = "";
                     var var3 = "";
-                    foreach (var op in entities.Variable)
+                    if (entities.Variable != null)
                     {
-                        Console.WriteLine("----------------------");
-                        Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
-                        Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
-                        Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
-                        if (op.Variable1 != null)
+                        foreach (var op in entities.Variable)
                         {
-                            var1 = op.Variable1[0];
-                            varLen++;
-                        }
-                        if (op.Variable2 != null)
-                        {
-                            var2 = op.Variable2[0];
-                            varLen++;
-                        }
-                        if (op.Variable2 != null)
-                        {
-                            var2 = op.Variable2[0];
-                            varLen++;
+                            Console.WriteLine("----------------------");
+                            Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
+                            Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
+                            Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
+                            if (op.Variable1 != null)
+                            {
+                                var1 = op.Variable1[0];
+                                varLen++;
+                            }
+                            if (op.Variable2 != null)
+                            {
+                                var2 = op.Variable2[0];
+                                varLen++;
+                            }
+                            if (op.Variable2 != null)
+                            {
+                                var2 = op.Variable2[0];
+                                varLen++;
+                            }
                         }
                     }
 
@@ -82,12 +98,6 @@ namespace SpeechToLateXAssistant
                 }
                 result += Environment.NewLine;
             }
-
-            string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\MSCS\\latex.txt";
-            File.WriteAllText(filePath, result);
-
-            var blah= Console.Read();
-            Console.WriteLine(blah);
         }
 
         private static async Task<string> ListenToSpeech()
@@ -114,7 +124,7 @@ namespace SpeechToLateXAssistant
         private static async Task<ResponseModel> GetLateXContentIntent(string inputText)
         {
             // move them to env variables later
-            var predictionKey = "d1c98d7dddfe4756992a962dc4659123";
+            var predictionKey = "7610220b97b94a979b0c1c322afcbdcb";
             var predictionEndpoint = "https://speechtolatexluis.cognitiveservices.azure.com/luis/prediction/v3.0/apps/33147dce-30bc-4f7b-baa0-0e6551f3e2bc/slots/staging/predict?verbose=true&show-all-intents=true&log=true&subscription-key=d1c98d7dddfe4756992a962dc4659123&query=";
 
             var clientLUIS = new HttpClient();
