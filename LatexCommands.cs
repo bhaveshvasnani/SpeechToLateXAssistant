@@ -22,6 +22,7 @@ namespace SpeechToLateXAssistant
                 { "subsection", "\\subsection" },
                 { "not equal to", "\\neq" },
                 { "equals", "=" },
+                { "equal to", "=" },
                 { "less than", "<" },
                 { "greater than", ">" },
                 { "less than equal to", "<=" },
@@ -30,6 +31,7 @@ namespace SpeechToLateXAssistant
                 { "therefore", "\\therefore" },
                 { "lambda", "\\lambda" },
                 { "new line", "\\\\" },
+                { "next line", "\\\\" },
                 { "log", "log" },
                 { "sqrt", "\\sqrt" },
                 { "plus", "+" },
@@ -37,6 +39,11 @@ namespace SpeechToLateXAssistant
                 { "multiply", "*" },
                 { "divide", "/" },
                 { "mod", "%" },
+                { "+", "+" },
+                { "-", "-" },
+                { "*", "*" },
+                { "/", "/" },
+                { "%", "%" },
             };
         }
 	}

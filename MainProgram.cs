@@ -25,12 +25,13 @@ namespace SpeechToLateXAssistant
             string processedSpeecText = "";
             while (processedSpeecText.Equals("Terminate") != true)
             {
-                processedSpeecText = ListenToSpeech().Result;
+                processedSpeecText = ListenToSpeech().Result.Replace(".", String.Empty);
                 Console.WriteLine(processedSpeecText);
                 if (processedSpeecText.Contains("Terminate"))
                 {
                     string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\MSCS\\latex.txt";
                     Console.WriteLine(filePath);
+                    Console.WriteLine(result);
                     Console.ReadLine();
                     File.WriteAllText(filePath, result);
                     return;
@@ -63,17 +64,17 @@ namespace SpeechToLateXAssistant
                             Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
                             if (op.Variable1 != null)
                             {
-                                var1 = op.Variable1[0];
+                                var1 = op.Variable1[0].ToLower();
                                 varLen++;
                             }
                             if (op.Variable2 != null)
                             {
-                                var2 = op.Variable2[0];
+                                var2 = op.Variable2[0].ToLower();
                                 varLen++;
                             }
-                            if (op.Variable2 != null)
+                            if (op.Variable3 != null)
                             {
-                                var2 = op.Variable2[0];
+                                var3 = op.Variable3[0].ToLower();
                                 varLen++;
                             }
                         }
@@ -85,11 +86,22 @@ namespace SpeechToLateXAssistant
                     }
                     else if (opLen == 1)
                     {
-                        result += latexCommands.actionToCommand[operators[0]] + "(" + var1 + ")";
+                        if (operators[0].Contains("section"))
+                        {
+                            result += latexCommands.actionToCommand[operators[0]] + "{" + var1 + "}";
+                        }
+                        else
+                        {
+                            result += latexCommands.actionToCommand[operators[0]] + "(" + var1 + ")";
+                        }
                     }
                     else if (opLen == 2 && varLen == 3)
                     {
                         result += var1 + " " + latexCommands.actionToCommand[operators[0]] + " " + var2 + " " + latexCommands.actionToCommand[operators[1]] + " " + var3;
+                    }
+                    else
+                    {
+                        result += response.query;
                     }
                 }
                 else
