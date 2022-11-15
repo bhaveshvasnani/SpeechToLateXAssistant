@@ -32,6 +32,11 @@ namespace SpeechToLateXAssistant
                 { "new line", "\\\\" },
                 { "log", "log" },
                 { "sqrt", "\\sqrt" },
+                { "plus", "+" },
+                { "minus", "-" },
+                { "multiply", "*" },
+                { "divide", "/" },
+                { "mod", "%" },
             };
         }
 	}

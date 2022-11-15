@@ -103,7 +103,7 @@ namespace SpeechToLateXAssistant
         private static async Task<string> ListenToSpeech()
         {
             // move them to env variables later
-            var key = "3bb96e80036d4050a22ecba1d2f3da46";
+            var key = Environment.GetEnvironmentVariable("SpeechToTextKey");
             var region = "eastus";
             var config = SpeechConfig.FromSubscription(key, region);
             config.SpeechRecognitionLanguage = "en-US";
@@ -124,7 +124,7 @@ namespace SpeechToLateXAssistant
         private static async Task<ResponseModel> GetLateXContentIntent(string inputText)
         {
             // move them to env variables later
-            var predictionKey = "7610220b97b94a979b0c1c322afcbdcb";
+            var predictionKey = Environment.GetEnvironmentVariable("LuisKey");
             var predictionEndpoint = "https://speechtolatexluis.cognitiveservices.azure.com/luis/prediction/v3.0/apps/33147dce-30bc-4f7b-baa0-0e6551f3e2bc/slots/staging/predict?verbose=true&show-all-intents=true&log=true&subscription-key=d1c98d7dddfe4756992a962dc4659123&query=";
 
             var clientLUIS = new HttpClient();
