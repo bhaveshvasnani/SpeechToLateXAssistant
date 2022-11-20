@@ -14,6 +14,7 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using Newtonsoft.Json;
 using SpeechToTextAssistant;
 using System.IO;
+using System.Threading;
 
 namespace SpeechToLateXAssistant
 {
@@ -21,7 +22,14 @@ namespace SpeechToLateXAssistant
     {
         static void Main(string[] args)
         {
-            string result = "";
+            Console.WriteLine("Welcome to Speech To LaTeX Assistant\n");
+            Thread.Sleep(1500);
+            Console.WriteLine("Please speak your document which you wish to convert\n");
+            Thread.Sleep(1500);
+            Console.WriteLine("To end and save the work, please say the exit word 'Terminate'\n");
+            Thread.Sleep(1500);
+            Console.WriteLine("I'm listening, please speak...\n");
+            string result = "\\documentclass{article}\n";
             string processedSpeecText = "";
             while (processedSpeecText.Equals("Terminate") != true)
             {
@@ -29,17 +37,14 @@ namespace SpeechToLateXAssistant
                 Console.WriteLine(processedSpeecText);
                 if (processedSpeecText.Contains("Terminate"))
                 {
-                    string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\MSCS\\latex.txt";
-                    Console.WriteLine(filePath);
-                    Console.WriteLine(result);
-                    Console.ReadLine();
+                    string filePath = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Results.tex";
                     File.WriteAllText(filePath, result);
                     return;
                 }
                 LatexCommands latexCommands = new LatexCommands();
                 ResponseModel response = GetLateXContentIntent(processedSpeecText).Result;
-                Console.WriteLine(response.query);
-                Console.WriteLine(response.prediction);
+                // Console.WriteLine(response.query);
+                // Console.WriteLine(response.prediction);
                 if (response.prediction.topIntent == "LateX Operations")
                 {
                     var entities = response.prediction.entities;
@@ -58,10 +63,10 @@ namespace SpeechToLateXAssistant
                     {
                         foreach (var op in entities.Variable)
                         {
-                            Console.WriteLine("----------------------");
-                            Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
-                            Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
-                            Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
+                            // Console.WriteLine("----------------------");
+                            // Console.WriteLine(op.Variable1 == null ? "" : op.Variable1[0]);
+                            // Console.WriteLine(op.Variable2 == null ? "" : op.Variable2[0]);
+                            // Console.WriteLine(op.Variable3 == null ? "" : op.Variable3[0]);
                             if (op.Variable1 != null)
                             {
                                 var1 = op.Variable1[0].ToLower();
@@ -86,7 +91,7 @@ namespace SpeechToLateXAssistant
                     }
                     else if (opLen == 1)
                     {
-                        if (operators[0].Contains("section"))
+                        if (operators[0].Contains("section") || operators[0].Contains("title"))
                         {
                             result += latexCommands.actionToCommand[operators[0]] + "{" + var1 + "}";
                         }
@@ -123,7 +128,6 @@ namespace SpeechToLateXAssistant
             var audioConfig = AudioConfig.FromDefaultMicrophoneInput();
             var speechRecognizer = new SpeechRecognizer(config, audioConfig);
 
-            Console.WriteLine("I'm listening, please speak...");
             var recognizedResult = await speechRecognizer.RecognizeOnceAsync();
             if (recognizedResult.Reason == ResultReason.RecognizedSpeech) {
                 return recognizedResult.Text;

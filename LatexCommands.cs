@@ -14,11 +14,12 @@ namespace SpeechToLateXAssistant
         {
             actionToCommand = new Dictionary<string, string>
             {
-                { "begin document", "\\begin{document}" },
+                { "begin document", "\\begin{document}\n\\maketitle" },
                 { "end document", "\\end{document}" },
                 { "begin equation", "\\begin{equation}" },
                 { "end equation", "\\end{equation}" },
                 { "section", "\\section" },
+                { "title", "\\title" },
                 { "subsection", "\\subsection" },
                 { "not equal to", "\\neq" },
                 { "equals", "=" },
