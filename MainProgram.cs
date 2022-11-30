@@ -29,7 +29,10 @@ namespace SpeechToLateXAssistant
             Thread.Sleep(1500);
             Console.WriteLine("To end and save the work, please say the exit word 'Terminate'\n");
             Thread.Sleep(1500);
+            Console.WriteLine("Results would be saved at the Desktop location as Results.TeX\n");
+            Thread.Sleep(1500);
             Console.WriteLine("I'm listening, please speak...\n");
+            Console.ReadLine();
             string result = "\\documentclass{article}\n";
             string processedSpeecText = "";
             while (processedSpeecText.Equals("Terminate") != true)
