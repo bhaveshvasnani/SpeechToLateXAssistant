@@ -18,6 +18,8 @@ namespace SpeechToLateXAssistant
                 { "end document", "\\end{document}" },
                 { "begin equation", "\\begin{equation}" },
                 { "end equation", "\\end{equation}" },
+                { "begin center", "\\begin{center}" },
+                { "end center", "\\end{center}" },
                 { "section", "\\section" },
                 { "title", "\\title" },
                 { "subsection", "\\subsection" },

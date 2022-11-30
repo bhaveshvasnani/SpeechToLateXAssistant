@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5AA1D21F-70DD-4B50-B973-9BC7EBFA21F4}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SpeechToTextAssistant</RootNamespace>
-    <AssemblyName>SpeechToTextAssistant</AssemblyName>
+    <RootNamespace>SpeechToLaTeXSystem</RootNamespace>
+    <AssemblyName>SpeechToLaTeXSystem</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
