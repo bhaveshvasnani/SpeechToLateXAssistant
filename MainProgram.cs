@@ -22,7 +22,6 @@ namespace SpeechToLateXAssistant
     {
         static void Main(string[] args)
         {
-            Console.Read();
             Console.WriteLine("Welcome to EasyTeX: Speech To LaTeX System\n");
             Thread.Sleep(1500);
             Console.WriteLine("Please speak your document line by line\n");
